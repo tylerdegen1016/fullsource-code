@@ -22,6 +22,14 @@ const Button = ({handleClick, text}) => {
   </button>)
 }
 
+const Button2 = (props) => (
+  <button onClick={props.handleClick}>
+    {props.text}
+  </button>
+)
+
+const Display = props => <div>{props.value}</div>
+
 const App = () => {
   const [left, setLeft] = useState(0)
   const [right, setRight] = useState(0)
@@ -63,6 +71,7 @@ const App = () => {
 
   return (
     <div>
+      <Display value={value} />
       <button onClick={hello('world')}>Closure stuff</button>
       {left}
       <Button handleClick={handleClick} text="handleClick"/>
@@ -71,6 +80,8 @@ const App = () => {
       {right}
       <History allClicks={allClicks} />
       <button onClick={setToValue(1000)}>thousand</button>
+      <br/>
+      <Button2 handleClick={() => setToValue(value+1)} text="increment"/>
     </div>
   )
 }
