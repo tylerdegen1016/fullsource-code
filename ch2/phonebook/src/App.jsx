@@ -22,13 +22,20 @@ const App = () => {
 
   const addNumber = (event) => {
     event.preventDefault()
-    const personObject = {
-      name: newName,
-      id: String(persons.length + 1)
+
+    if (persons.some(p => p.name === newName)){
+      alert("already in there")
+    } else {
+      const personObject = {
+        name: newName,
+        id: String(persons.length + 1)
+      }
+  
+      setPersons(persons.concat(personObject))
+      setNewName("")
     }
 
-    setPersons(persons.concat(personObject))
-    setNewName("")
+
   }
 
   const handleNameChange = (event) => {
