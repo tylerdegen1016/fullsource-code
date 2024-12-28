@@ -1,19 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Phonebook from './components/Phonebook'
 import Filter from './components/Filter'
 
+import axios from 'axios'
+
+//[
+//   { name: 'Arto Hellas', number: '040-123456', id: 1 },
+//   { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+//   { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+//   { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }    
+// ]
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }    
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [filteredPersons, setFilteredPersons] = useState(persons)
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchterm, setSearchterm] = useState('')
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log(response)
+        setPersons(response.data)
+        setFilteredPersons(response.data.filter(p => p.name.includes(searchterm)))
+      })
+  }, [])
 
 
   const addNumber = (event) => {
