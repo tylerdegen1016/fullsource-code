@@ -1,18 +1,7 @@
 import { useState } from 'react'
+import Phonebook from './components/Phonebook'
+import Filter from './components/Filter'
 
-const Phonebook = ({persons}) => {
-  return(
-    <div>
-      {persons.map(person => <PhonebookEntry person={person} key={person.name}/>)}
-    </div>
-  )
-}
-
-const PhonebookEntry = ({person}) => {
-  return (
-    <p>{person.name}: {person.number}</p>
-  )
-}
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -68,7 +57,8 @@ const App = () => {
 
   return (
     <div>
-      <div>search: <input value={searchterm} onChange={filterPersons} /></div>
+
+      <div><Filter value={searchterm} onChange={filterPersons} /> </div>
       <h2>Phonebook</h2>
       <form onSubmit={addNumber}>
         <div>
