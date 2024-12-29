@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Phonebook from './components/Phonebook'
 import Filter from './components/Filter'
+import personService from './services/persons'
 
 import axios from 'axios'
 
@@ -12,13 +13,13 @@ const App = () => {
   const [searchterm, setSearchterm] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log(response)
-        setPersons(response.data)
-        setFilteredPersons(response.data.filter(p => p.name.includes(searchterm)))
-      })
+
+    personService
+      .getAll()
+      .then(initialPersons => {
+      setPersons(initialPersons)
+      setFilteredPersons(initialPersons.filter(p => p.name.includes(searchterm)))
+    })
   }, [])
 
 
