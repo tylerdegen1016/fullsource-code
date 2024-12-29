@@ -28,20 +28,25 @@ const App = () => {
 
     if (persons.some(p => p.name === newName)){
       alert(`${newName} is already in there`)
-    } else {
+    } 
+    else 
+    {
       const personObject = {
         name: newName,
         number: newNumber,
         id: String(persons.length + 1)
       }
-  
-      setPersons(persons.concat(personObject))
-      if (newName.toLowerCase().includes(searchterm)) {
-        setFilteredPersons(filteredPersons.concat(personObject))
-      }
-
-      setNewName("")
-      setNewNumber("")
+      
+      personService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        if (newName.toLowerCase().includes(searchterm)) {
+          setFilteredPersons(filteredPersons.concat(personObject))
+        }
+        setNewName("")
+        setNewNumber("")
+      })
     }
 
 
