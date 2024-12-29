@@ -18,6 +18,10 @@ const App = () => {
       .then(returnedNote => {
         setNotes(notes.map(note => note.id === id ? returnedNote : note))
       })
+      .catch(error => {
+        alert(`${note.content} already deleted`)
+        setNotes(notes.filter(n => n.id !== id))
+      })
   }
 
   // const hook = () => {
