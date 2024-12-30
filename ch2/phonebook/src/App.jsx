@@ -27,7 +27,23 @@ const App = () => {
     event.preventDefault()
 
     if (persons.some(p => p.name === newName)){
-      alert(`${newName} is already in there`)
+      
+      var updateNumber = confirm(`${newName} is already in there. Want to update number?`)
+      if (updateNumber){
+        const personObject = persons.find(p => p.name == newName)
+        const updatedPersonObject = {...personObject, number: newNumber}
+        personService.update(personObject.id, updatedPersonObject)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id === personObject.id ? updatedPersonObject : person))
+            setFilteredPersons(persons.map(person => person.id === personObject.id ? updatedPersonObject : person))
+          })
+          .catch(error => {
+            alert("ERROR!")
+            console.log(error)
+          })
+      } else {
+
+      }
     } 
     else 
     {
