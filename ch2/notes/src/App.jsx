@@ -2,12 +2,14 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 import Note from './components/Note'
 import noteService from './services/notes'
+import Notification from './components/Notification'
 //ch2/notes/components/Note.js
 
 const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState("a new note")
   const [showAll, setShowAll] = useState(true)
+  const [errorMessage, setErrorMessage] = useState("ERROR!!")
 
   const toggleImportanceOf = (id) => {
     const note = notes.find(n => n.id === id)
@@ -19,7 +21,12 @@ const App = () => {
         setNotes(notes.map(note => note.id === id ? returnedNote : note))
       })
       .catch(error => {
-        alert(`${note.content} already deleted`)
+        const errorMessage = `${note.content} already deleted`
+        setErrorMessage(errorMessage)
+        setTimeout(() => {
+          setErrorMessage(null)
+        },5000)
+
         setNotes(notes.filter(n => n.id !== id))
       })
   }
@@ -74,6 +81,7 @@ const App = () => {
   return (
     <div>
       <h1>Notes</h1>
+      <Notification message={errorMessage} />
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all'}
