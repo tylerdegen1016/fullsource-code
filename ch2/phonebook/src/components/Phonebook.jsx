@@ -1,9 +1,9 @@
 import PhonebookEntry from "./PhonebookEntry"
 
-const Phonebook = ({persons}) => {
+const Phonebook = ({persons, deleteNumber}) => {
     return(
       <div>
-        {persons.map(person => <PhonebookEntry person={person} key={person.name}/>)}
+        {persons.map(person => <PhonebookEntry person={person} key={person.name} deleteNumber={deleteNumber}/>)}
       </div>
     )
   }

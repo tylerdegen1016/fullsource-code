@@ -48,7 +48,19 @@ const App = () => {
         setNewNumber("")
       })
     }
+  }
 
+  const deleteNumber = (id) => {
+    personService
+      .deletePerson(id)
+      .then(response => {
+        setPersons(persons.filter(p => p.id != id))
+        setFilteredPersons(filteredPersons.filter(p => p.id != id))
+      })
+      .catch(error => {
+        alert("ERROR!!")
+        console.log(error)
+      })
 
   }
 
@@ -81,7 +93,7 @@ const App = () => {
           <button type="submit">add</button>
         </div>
       </form>
-      <Phonebook persons={filteredPersons} />
+      <Phonebook persons={filteredPersons} deleteNumber={deleteNumber} />
     </div>
   )
 }

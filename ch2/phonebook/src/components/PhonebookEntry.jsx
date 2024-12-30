@@ -1,6 +1,9 @@
-const PhonebookEntry = ({person}) => {
+import personService from '../services/persons'
+
+
+const PhonebookEntry = ({person, deleteNumber}) => {
     return (
-      <p>{person.name}: {person.number}</p>
+      <p>{person.name}: {person.number} <button onClick={() => deleteNumber(person.id)}>Delete</button></p> 
     )
   }
 
