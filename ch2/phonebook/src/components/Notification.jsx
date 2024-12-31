@@ -3,8 +3,8 @@ const Notification = ({message}) => {
     var style = {
         color:"green",
         background: "lightgrey",
-        font-size: "20px",
-        border-style: "solid"
+        fontSize: "20px",
+        borderStyle: "solid"
     }
 
     if (message === null) {
@@ -13,7 +13,9 @@ const Notification = ({message}) => {
 
     return(
         <div style={style}>
-
+            {message}
         </div>
     )
 }
+
+export default Notification

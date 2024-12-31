@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Phonebook from './components/Phonebook'
 import Filter from './components/Filter'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 import axios from 'axios'
 
@@ -11,7 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchterm, setSearchterm] = useState('')
-  const [notificationMessage, setNotificationMessage] = useState("")
+  const [notificationMessage, setNotificationMessage] = useState("hi")
 
   useEffect(() => {
 
@@ -22,7 +23,6 @@ const App = () => {
       setFilteredPersons(initialPersons.filter(p => p.name.includes(searchterm)))
     })
   }, [])
-
 
   const addNumber = (event) => {
     event.preventDefault()
@@ -37,13 +37,14 @@ const App = () => {
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id === personObject.id ? updatedPersonObject : person))
             setFilteredPersons(persons.map(person => person.id === personObject.id ? updatedPersonObject : person))
+
           })
           .catch(error => {
             alert("ERROR!")
             console.log(error)
           })
       } else {
-
+        //todo
       }
     } 
     else 
@@ -63,6 +64,11 @@ const App = () => {
         }
         setNewName("")
         setNewNumber("")
+
+        setNotificationMessage(`Added ${returnedPerson.name}`)
+        setTimeout( () => {
+          setNotificationMessage(null)
+        },5000)
       })
     }
   }
@@ -98,7 +104,7 @@ const App = () => {
 
   return (
     <div>
-
+      <Notification message={notificationMessage} />
       <div><Filter value={searchterm} onChange={filterPersons} /> </div>
       <h2>Phonebook</h2>
       <form onSubmit={addNumber}>
