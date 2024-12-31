@@ -37,10 +37,10 @@ const App = () => {
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id === personObject.id ? updatedPersonObject : person))
             setFilteredPersons(persons.map(person => person.id === personObject.id ? updatedPersonObject : person))
-
+            
           })
           .catch(error => {
-            alert("ERROR!")
+            setNotificationMessage("ERROR!")
             console.log(error)
           })
       } else {
