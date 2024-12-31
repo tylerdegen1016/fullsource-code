@@ -5,6 +5,7 @@ import personService from './services/persons'
 import Notification from './components/Notification'
 
 import axios from 'axios'
+import ErrorMessage from './components/Error'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -13,6 +14,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchterm, setSearchterm] = useState('')
   const [notificationMessage, setNotificationMessage] = useState("hi")
+  const [errorMessage, setErrorMessage] = useState("error")
+
 
   useEffect(() => {
 
@@ -40,7 +43,10 @@ const App = () => {
             
           })
           .catch(error => {
-            setNotificationMessage("ERROR!")
+            setErrorMessage("ERROR!")
+            setTimeout( () => {
+              setErrorMessage(null)
+            },5000)
             console.log(error)
           })
       } else {
@@ -105,6 +111,7 @@ const App = () => {
   return (
     <div>
       <Notification message={notificationMessage} />
+      <ErrorMessage message={errorMessage} />
       <div><Filter value={searchterm} onChange={filterPersons} /> </div>
       <h2>Phonebook</h2>
       <form onSubmit={addNumber}>
