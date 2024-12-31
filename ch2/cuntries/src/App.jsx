@@ -28,7 +28,7 @@ function App() {
     content = <p>too many countries</p>
   }
   else if (numCunts < 10 && numCunts > 1) {
-    content = <CountryList countries={countriesToShow} />
+    content = <CountryList countries={countriesToShow} setSearchTerm={setSearchTerm}/>
   }
   else if (numCunts == 1) {
     content = <CountryDetailed country={countriesToShow[0]} />
