@@ -31,6 +31,15 @@ app.get("/api/people", (req, res) => {
     res.json(notes)
 })
 
+app.get("/info", (req, res) => {
+    res.send(
+        `<p>Phonebook has info for ${people.length} people</p>
+        
+        <p>Date here</p>`
+    
+    )
+})
+
 
 
 
@@ -44,9 +53,7 @@ let notes = [
   },
 ];
 
-app.get("/", (req, res) => {
-    res.send("<h1>Ho!!</h1>")
-})
+
 
 app.get("/api/notes", (req, res) => {
     res.json(notes)
