@@ -28,7 +28,7 @@ let people = [
 ]
 
 app.get("/api/people", (req, res) => {
-    res.json(notes)
+    res.json(people)
 })
 
 app.get("/info", (req, res) => {
@@ -48,9 +48,56 @@ app.get("/api/people/:id", (req, res) => {
     } else {
         res.status(404).end()
     }
-
-
 })
+
+app.delete("/api/people/:id", (req, res) => {
+    const id = req.params.id
+    people = people.filter(person => person.id !== id)
+
+    res.status(204).end()
+})
+
+const generateId = () => {
+    const maxId = people.length > 0
+      ? Math.max(...people.map(n => Number(n.id)))
+      : 0
+    return String(maxId + 1)
+  }
+  
+  app.post('/api/people', (request, response) => {
+    const body = request.body
+  
+    error = false
+    errorMessage = ""
+    if (!body.name){
+        error = true
+        errorMessage += "name missing"
+    }
+    if (!body.number){
+        error = true
+        errorMessage += "number missing"
+    }
+    if(people.some(p => p.name === body.name)){
+        error = true
+        errorMessage += "person already in there"
+    }
+    if (error){
+        return response.status(400).json({
+          error: errorMessage,
+        });
+    }
+
+  
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: generateId()
+    }
+  
+    people = people.concat(person)
+  
+    response.json(person)
+  })
 
 
 
@@ -89,12 +136,7 @@ app.delete("/api/notes/:id", (req, res) => {
     res.status(204).end()
 })
 
-const generateId = () => {
-    const maxId = notes.length > 0
-      ? Math.max(...notes.map(n => Number(n.id)))
-      : 0
-    return String(maxId + 1)
-  }
+
   
   app.post('/api/notes', (request, response) => {
     const body = request.body
