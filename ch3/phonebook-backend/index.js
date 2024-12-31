@@ -40,6 +40,18 @@ app.get("/info", (req, res) => {
     )
 })
 
+app.get("/api/people/:id", (req, res) => {
+    const id = req.params.id
+    const person = people.find(person => person.id === id)
+    if (person) {
+        res.json(person)
+    } else {
+        res.status(404).end()
+    }
+
+
+})
+
 
 
 
