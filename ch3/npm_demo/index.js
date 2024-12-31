@@ -1,6 +1,7 @@
 const http = require("http")
 const express = require('express')
 app = express()
+app.use(express.json())
 
 let notes = [
   { id: "1", content: "HTML is easy", important: true },
@@ -29,6 +30,29 @@ app.get("/api/notes/:id", (request, response) => {
     } else {
         response.status(404).end()
     }
+})
+
+const generateId = () => {
+    const maxId = notes.length > 0 ? Math.max(...notes.map(n => Number(n.id))) : 0
+    return String(maxId + 1)
+}
+
+app.post("/api/notes", (request, response) => {
+    if (!body.content) {
+        return response.status(400).json({
+            error:"content missing"
+        })
+    }
+
+    const note = {
+        content: body.content,
+        important: Boolean(body.imporant) || false,
+        id: generateId()
+    }
+
+    notes = notes.concat(note)
+
+    response.json(note)
 })
 
 app.delete('/api/notes/:id', (request, response) => {
