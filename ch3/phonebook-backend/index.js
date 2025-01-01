@@ -3,6 +3,17 @@ const express = require("express")
 const app = express()
 
 app.use(express.json())
+app.use(requestLogger)
+
+//middleware
+const requestLogger = (request, response, next) => {
+    console.log("method ", request.method)
+    console.log("path ", request.path)
+
+    console.log("body ", request.body)
+
+    next()
+}
 
 let people = [
     { 
@@ -157,6 +168,12 @@ app.delete("/api/notes/:id", (req, res) => {
   
     response.json(note)
   })
+
+  //after routes so catch requests to nonexistent routes
+  const unknownEndpoint = (request, response) => {
+    response.status(404).send({error: "Unknown endpoint"})
+    app.use(unknownEndpoint)
+  }
 
 const PORT = 3001
 app.listen(PORT, () => {
