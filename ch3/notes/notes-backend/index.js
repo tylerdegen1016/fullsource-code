@@ -1,8 +1,10 @@
 const http = require("http")
 const express = require('express')
+const cors = require('cors')
 
 app = express()
 app.use(express.json())
+app.use(cors())
 
 //middleware
 const requestLogger = (request, response, next) => {
