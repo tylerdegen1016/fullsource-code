@@ -10,7 +10,7 @@ const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState("a new note")
   const [showAll, setShowAll] = useState(true)
-  const [errorMessage, setErrorMessage] = useState("ERROR!!")
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const toggleImportanceOf = (id) => {
     const note = notes.find(n => n.id === id)
@@ -53,7 +53,7 @@ const App = () => {
   }, [])
 
 
-  console.log("render", notes.length, "notes")
+  console.log("render", notes.length, "notes", notes)
   
   const notesToShow = showAll ? notes : notes.filter(note => note.important)
 
