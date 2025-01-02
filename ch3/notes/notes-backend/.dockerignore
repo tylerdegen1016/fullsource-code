@@ -20,7 +20,6 @@ coverage/
 bower_components/
 
 # Build and runtime artifacts
-dist/
 build/
 
 # IDE and editor settings

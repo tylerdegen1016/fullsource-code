@@ -4,6 +4,7 @@ const cors = require('cors')
 
 app = express()
 app.use(express.json())
+app.use(express.static("dist"))
 app.use(cors())
 
 //middleware
@@ -31,7 +32,7 @@ let notes = [
 ];
 
 app.get('/', (request, response) => {
-    response.send("<h1>HI!!</h1>")
+    response.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
 })
 
 app.get('/api/notes', (request, response) => {
