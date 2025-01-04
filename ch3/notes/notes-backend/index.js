@@ -1,11 +1,30 @@
 const http = require("http")
 const express = require('express')
 const cors = require('cors')
+const dotenv = require('dotenv').config()
 
 app = express()
 app.use(express.json())
 app.use(express.static("dist"))
 app.use(cors())
+
+const mongoose = require('mongoose')
+
+const password = process.argv[2]
+
+// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
+const url = process.env.MONGODB_URI;
+console.log("url",url)
+mongoose.set('strictQuery',false)
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+})
+
+const Note = mongoose.model('Note', noteSchema)
+
 
 //middleware
 const requestLogger = (request, response, next) => {
@@ -36,7 +55,11 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/notes', (request, response) => {
-    response.json(notes)
+    console.log("getting notes")
+    Note.find({}).then(notes => {
+        console.log("got notes", notes)
+        response.json(notes)
+      })
 })
 
 app.get("/api/notes/:id", (request, response) => {
