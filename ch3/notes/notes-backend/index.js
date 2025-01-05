@@ -2,6 +2,7 @@ const http = require("http")
 const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv').config()
+const Note = require("./models/note")
 
 app = express()
 app.use(express.json())
@@ -21,6 +22,14 @@ mongoose.connect(url)
 const noteSchema = new mongoose.Schema({
   content: String,
   important: Boolean,
+})
+
+noteSchema.set("toJSON", {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString()
+        delete returnedObject._id
+        delete returnedObject.__v
+    }
 })
 
 const Note = mongoose.model('Note', noteSchema)
