@@ -5,13 +5,15 @@
   "private": true,
   "dependencies": {
     "cra-template": "1.2.0",
+    "flask": "^0.2.10",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "yarn": "^1.22.22"
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-api": "cd api && venv/bin/flask run --no-debugger",
+    "start-api": "cd api && venv/bin/flask --app api.py run",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
