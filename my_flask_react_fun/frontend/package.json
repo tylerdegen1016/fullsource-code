@@ -1,11 +1,11 @@
 {
-  "proxy": "http://localhost:5000",
   "name": "react-flask-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "cra-template": "1.2.0",
     "flask": "^0.2.10",
+    "flask-cors": "^0.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-scripts": "5.0.1",
@@ -35,5 +35,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }
