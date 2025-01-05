@@ -4,6 +4,7 @@ import Note from './components/Note'
 import noteService from './services/notes'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
+import NewNoteForm from './components/NewNoteForm'
 //ch2/notes/components/Note.js
 
 const App = () => {
@@ -81,7 +82,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Notes</h1>
+      <h1>Notes!</h1>
       <Notification message={errorMessage} />
       <div>
         <button onClick={() => setShowAll(!showAll)}>
@@ -93,10 +94,11 @@ const App = () => {
          <Note note={note} toggleImportance={() => toggleImportanceOf(note.id)} key={note.id} />
         )}
       </ul>
-      <form onSubmit={addNote}>
+      <NewNoteForm onSubmit={addNote} inputVal={newNote} onChange={handleNoteChange} />
+      {/* <form onSubmit={addNote}>
         <input value={newNote} onChange={handleNoteChange}/>
         <button type="submit">Save</button>
-      </form>
+      </form> */}
 
       <Footer />
     </div>

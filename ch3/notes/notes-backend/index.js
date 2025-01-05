@@ -32,8 +32,6 @@ noteSchema.set("toJSON", {
     }
 })
 
-const Note = mongoose.model('Note', noteSchema)
-
 
 //middleware
 const requestLogger = (request, response, next) => {
