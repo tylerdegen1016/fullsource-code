@@ -3,8 +3,6 @@ import Phonebook from './components/Phonebook'
 import Filter from './components/Filter'
 import personService from './services/persons'
 import Notification from './components/Notification'
-
-import axios from 'axios'
 import ErrorMessage from './components/Error'
 
 const App = () => {
@@ -16,16 +14,33 @@ const App = () => {
   const [notificationMessage, setNotificationMessage] = useState("hi")
   const [errorMessage, setErrorMessage] = useState(null)
 
+  const getFilteredPersonsCaseInsensitive = (searchTerm) => {
+    //initialPersons.filter(p => p.name.includes(searchterm))
+    return persons.filter(p => p.name.includes(searchTerm))
+  }
+
+  // const filterPersons = (event) => {
+  //   let newSearchTerm = event.target.value
+  //   console.log(newSearchTerm)
+  //   setSearchterm(newSearchTerm)
+  //   setFilteredPersons(getFilteredPersonsCaseInsensitive(newSearchTerm))
+  // }
+
 
   useEffect(() => {
-
+    console.log("use effect")
     personService
       .getAll()
       .then(initialPersons => {
       setPersons(initialPersons)
-      setFilteredPersons(initialPersons.filter(p => p.name.includes(searchterm)))
+      console.log(initialPersons)
     })
   }, [])
+
+  useEffect(() => {
+    setFilteredPersons(getFilteredPersonsCaseInsensitive(searchterm));
+    console.log("set filtered persons")
+  }, [searchterm, persons]); // Re-run filtering when persons or searchterm changes
 
   const addNumber = (event) => {
     event.preventDefault()
@@ -38,9 +53,7 @@ const App = () => {
         const updatedPersonObject = {...personObject, number: newNumber}
         personService.update(personObject.id, updatedPersonObject)
           .then(returnedPerson => {
-            setPersons(persons.map(person => person.id === personObject.id ? updatedPersonObject : person))
-            setFilteredPersons(persons.map(person => person.id === personObject.id ? updatedPersonObject : person))
-            
+            setPersons(persons.map(person => person.id === personObject.id ? updatedPersonObject : person))            
           })
           .catch(error => {
             setErrorMessage("ERROR!")
@@ -84,7 +97,6 @@ const App = () => {
       .deletePerson(id)
       .then(response => {
         setPersons(persons.filter(p => p.id != id))
-        setFilteredPersons(filteredPersons.filter(p => p.id != id))
       })
       .catch(error => {
         alert("ERROR!!")
@@ -101,22 +113,17 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  const filterPersons = (event) => {
-    let newSearchTerm = event.target.value
-    console.log(newSearchTerm)
-    setSearchterm(newSearchTerm)
-    setFilteredPersons(persons.filter(p => p.name.toLowerCase().includes(newSearchTerm.toLowerCase())))
-  }
+
 
   return (
     <div>
       <Notification message={notificationMessage} />
       <ErrorMessage message={errorMessage} />
-      <div><Filter value={searchterm} onChange={filterPersons} /> </div>
+      <div><Filter value={searchterm} /> </div>
       <h2>Phonebook</h2>
       <form onSubmit={addNumber}>
         <div>
-          name: <input value={newName} onChange={handleNameChange}/>
+          Name: <input value={newName} onChange={handleNameChange}/>
         </div>
         <div>number: <input value={newNumber} onChange={handleNumberChange}/></div>
         <div>

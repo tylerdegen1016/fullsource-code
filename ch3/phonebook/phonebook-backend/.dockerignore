@@ -33,3 +33,5 @@ build/
 
 # Typescript cache
 *.tsbuildinfo
+
+.env
