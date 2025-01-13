@@ -9,28 +9,6 @@ app.use(express.json())
 app.use(express.static("dist"))
 app.use(cors())
 
-const mongoose = require('mongoose')
-
-const password = process.argv[2]
-
-// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
-const url = process.env.MONGODB_URI;
-console.log("url",url)
-mongoose.set('strictQuery',false)
-mongoose.connect(url)
-
-const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
-})
-
-noteSchema.set("toJSON", {
-    transform: (document, returnedObject) => {
-        returnedObject.id = returnedObject._id.toString()
-        delete returnedObject._id
-        delete returnedObject.__v
-    }
-})
 
 
 //middleware
@@ -44,18 +22,6 @@ const requestLogger = (request, response, next) => {
 }
 
 app.use(requestLogger)
-
-
-
-// let notes = [
-//   { id: "1", content: "HTML is easy", important: true },
-//   { id: "2", content: "Browser can execute only JavaScript", important: false },
-//   {
-//     id: "3",
-//     content: "GET and POST are the most important methods of HTTP protocol",
-//     important: true,
-//   },
-// ];
 
 app.get('/', (request, response) => {
     response.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
